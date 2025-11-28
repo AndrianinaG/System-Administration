@@ -66,7 +66,7 @@ checking_repquota(){
 		if [ $quota_value -ge $quota_fixed_for_HOME ]; then 
 			for USER in $users; do
 				echo "$DATE : L'utilisateur $USER a atteint sa limite de quota sur la partition $HOME_MOUNT_POINT" > /var/mail/$USER
-				echo "30 10 * * 1,2,3,4,5,6,7 root /bin/bash  echo $DATE : L'utilisateur $USER a atteint sa limite de quota sur la partition $HOME_MOUNT_POINT" >> /etc/crontab
+				echo "* * * * * root /bin/bash  echo $DATE : L'utilisateur $USER a atteint sa limite de quota sur la partition $HOME_MOUNT_POINT" >> /etc/crontab
 			done	
 		elif [ $quota_fixed_for_HOME -ge $quota_value ]; then
 			for USER in $users; do
@@ -79,7 +79,7 @@ checking_repquota(){
 		if [ $quota_used_for_DATA -ge $quota_fixed_for_DATA ]; then
 			for USER in $users; do
 				echo "$DATE : L'utilisateur $USER a atteint sa limite de quota sur la partition $DATA_MOUNT_POINT" > /var/mail/$USER
-				echo "30 10 * * 1,2,3,4,5,6,7 root /bin/bash  echo $DATE : L'utilisateur $USER a atteint sa limite de quota sur la partition $DATA_MOUNT_POINT" >> /etc/crontab
+				echo "* * * * * root /bin/bash  echo $DATE : L'utilisateur $USER a atteint sa limite de quota sur la partition $DATA_MOUNT_POINT" >> /etc/crontab
 			done	
 		elif [ $quota_fixed_for_DATA -ge $quota_value ]; then
 			for USER in $users; do
@@ -95,7 +95,7 @@ cron_planification(){
 	check_cron=$( cat /etc/crontab | grep -c "QUOTA_REPORT.sh")
 
 	if [ $check_cron -eq 0 ]; then
-	echo "0 0 * * 1	root	/bin/bash $SCRIPT_PATH" >> /etc/crontab
+	echo "0 9 * * 1	root	/bin/bash $SCRIPT_PATH" >> /etc/crontab
 	fi
 }
 
